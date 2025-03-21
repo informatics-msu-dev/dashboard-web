@@ -280,6 +280,19 @@ export default function Dashboard() {
         return months;
     };
 
+    // Add custom tooltip components
+    const CustomTooltip = ({ active, payload, label, valuePrefix }) => {
+        if (active && payload && payload.length) {
+            return (
+                <div className="bg-[#1E3A5A] p-3 rounded shadow-lg border border-gray-600">
+                    <p className="text-white mb-1">{`${label}`}</p>
+                    <p className="text-sky-400">{`${valuePrefix}: ${payload[0].value} ครั้ง`}</p>
+                </div>
+            );
+        }
+        return null;
+    };
+
     return (
         <div className="p-6 pl-72 bg-[#23486A] min-h-screen text-white">
             <h1 className="text-2xl font-normal mb-4">📊 แดชบอร์ด : รายงานการจองห้อง</h1>
@@ -389,7 +402,7 @@ export default function Dashboard() {
                                         interval={0}
                                     />
                                     <YAxis stroke="#ffffff" />
-                                    <Tooltip />
+                                    <Tooltip content={<CustomTooltip valuePrefix="จำนวนการจอง" />} />
                                     <Legend />
                                     <Bar dataKey="count" name="จำนวนการจอง" fill="#60A5FA" />
                                 </BarChart>
@@ -418,7 +431,7 @@ export default function Dashboard() {
                                             interval={0}
                                         />
                                         <YAxis stroke="#ffffff" />
-                                        <Tooltip />
+                                        <Tooltip content={<CustomTooltip valuePrefix="จำนวนการจอง" />} />
                                         <Legend />
                                         <Bar dataKey="count" name="จำนวนการจอง" fill="#38BDF8" />
                                     </BarChart>
@@ -493,7 +506,7 @@ export default function Dashboard() {
                                             interval={0}
                                         />
                                         <YAxis stroke="#ffffff" />
-                                        <Tooltip />
+                                        <Tooltip content={<CustomTooltip valuePrefix="จำนวนการจอง" />} />
                                         <Legend />
                                         <Bar dataKey="count" name="จำนวนการจอง" fill="#F59E0B" />
                                     </BarChart>
@@ -568,7 +581,7 @@ export default function Dashboard() {
                                             interval={0}
                                         />
                                         <YAxis stroke="#ffffff" />
-                                        <Tooltip />
+                                        <Tooltip content={<CustomTooltip valuePrefix="จำนวนการจอง" />} />
                                         <Legend />
                                         <Bar dataKey="count" name="จำนวนการจอง" fill="#4ADE80" />
                                     </BarChart>

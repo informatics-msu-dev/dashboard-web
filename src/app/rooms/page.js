@@ -123,7 +123,7 @@ export default function RoomsPage() {
         });
     }
 
-    const COLORS = ["#5DB9DD", "#FF7800", "#21562F", "#9B7128", "#4O3984", "#FF008F", "#224A93", "#FFCC00", "#FFFFFF", "#FF6384"];
+    const COLORS = ["#5DB9DD", "#FF7800", "#21562F", "#9B7128", "#4O3984", "#FF008F", "#224A93", "#FFCC00", "#333333", "#FF6384"];
 
     const COLOR_MAPPINGS = {
         branch: {
@@ -138,9 +138,21 @@ export default function RoomsPage() {
         position: {
             "อาจารย์": "#224A93",
             "นิสิต": "#FFCC00",
-            "เจ้าหน้าที่": "#FFFFFF",
+            "เจ้าหน้าที่": "#333333",
             "บุคคลภายนอก": "#FF6384",
         }
+    };
+
+    const CustomTooltip = ({ active, payload }) => {
+        if (active && payload && payload.length) {
+            return (
+                <div className="bg-[#1E3A5A] p-2 rounded shadow-lg">
+                    <p className="font-medium">{payload[0].name}</p>
+                    <p>{showPercentage ? `${payload[0].value}%` : `${payload[0].payload.count} ครั้ง`}</p>
+                </div>
+            );
+        }
+        return null;
     };
 
     return (
@@ -229,12 +241,18 @@ export default function RoomsPage() {
                                             <Cell key={`cell-${i}`} fill={COLOR_MAPPINGS[viewType][entry.name] || COLORS[i % COLORS.length]} />
                                         ))}
                                     </Pie>
-                                    <Tooltip />
+                                    <Tooltip content={<CustomTooltip />} />
                                 </PieChart>
                             </div>
                             <div className="mt-4 max-h-[144px] overflow-y-auto" style={{ scrollbarWidth: 'thin' }}>
                                 {room.data.map((item, i) => (
-                                    <div key={i} className="flex justify-between px-4 py-2 bg-[#4C7B8B] rounded mb-2">
+                                    <div 
+                                        key={i} 
+                                        className="flex justify-between px-4 py-2 rounded mb-2 text-white"
+                                        style={{ 
+                                            backgroundColor: COLOR_MAPPINGS[viewType][item.name] || COLORS[i % COLORS.length] 
+                                        }}
+                                    >
                                         <span>{item.name}</span>
                                         <span>{showPercentage ? `${item.value}%` : `${item.count} ครั้ง`}</span>
                                     </div>
