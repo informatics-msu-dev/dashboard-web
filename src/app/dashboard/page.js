@@ -24,6 +24,7 @@ export default function Dashboard() {
         dayOfWeek: { name: '', count: 0 },
         timeSlot: { name: '', avgDuration: 0 }
     });
+    const [monthlyData, setMonthlyData] = useState([]);
 
     // ฟังก์ชันสำหรับดึงปีที่มีข้อมูลการจอง
     const getAvailableYears = (data) => {
@@ -64,8 +65,10 @@ export default function Dashboard() {
             const bookingByRoom = processRoomBookingByYear(data, selectedYear, data["ห้อง"]);
             const bookingByBranch = processBranchBookingDataByYear(data, selectedYear);
             calculatePeakUsage(data);
+            const monthlyBookings = processMonthlyData(data, selectedYear);
 
             setTimeout(() => {
+                setMonthlyData(monthlyBookings);
                 setRoleData(bookingByRole);
                 setRoomData(bookingByRoom);
                 setBranchData(bookingByBranch);
@@ -257,30 +260,68 @@ export default function Dashboard() {
         });
     };
 
+    // Add function to process monthly data
+    const processMonthlyData = (data, year) => {
+        if (!data || !data["รายละเอียดการจอง"]) return [];
+
+        const months = Array.from({ length: 12 }, (_, i) => {
+            return { month: i + 1, name: new Date(2000, i, 1).toLocaleString('th-TH', { month: 'long' }), count: 0 };
+        });
+
+        const bookings = data["รายละเอียดการจอง"].filter(
+            booking => new Date(booking["วันที่"]).getFullYear() === year
+        );
+
+        bookings.forEach(booking => {
+            const monthIndex = new Date(booking["วันที่"]).getMonth();
+            months[monthIndex].count++;
+        });
+
+        return months;
+    };
+
     return (
         <div className="p-6 pl-72 bg-[#23486A] min-h-screen text-white">
             <h1 className="text-2xl font-normal mb-4">📊 แดชบอร์ด : รายงานการจองห้อง</h1>
 
-            {/* ปรับปรุง Dropdown เลือกปี */}
-            <div className={`mb-4 flex items-center gap-4 ${isLoading ? "opacity-50" : ""}`}>
-                <label className="mr-2 font-light">เลือกปี:</label>
-                <select
-                    className="bg-[#3B6790] text-white p-2 rounded"
-                    value={selectedYear}
-                    onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-                >
-                    {availableYears.map((year) => (
-                        <option key={year} value={year}>
-                            {year}
-                        </option>
-                    ))}
-                </select>
-                <span className="ml-2 text-gray-400">
-                    (มีข้อมูล {availableYears.length} ปี)
-                </span>
-            </div>
+            {/* Year Selector with Loading State */}
+            {isLoading ? (
+                <div className="mb-4 flex items-center gap-4">
+                    <div className="h-8 w-16 bg-[#3B6790] rounded animate-pulse"></div>
+                    <div className="h-8 w-32 bg-[#3B6790] rounded animate-pulse"></div>
+                    <div className="h-8 w-24 bg-[#3B6790] rounded animate-pulse"></div>
+                </div>
+            ) : (
+                <div className="mb-4 flex items-center gap-4">
+                    <label className="mr-2 font-light">เลือกปี:</label>
+                    <select
+                        className="bg-[#3B6790] text-white p-2 rounded"
+                        value={selectedYear}
+                        onChange={(e) => setSelectedYear(parseInt(e.target.value))}
+                    >
+                        {availableYears.map((year) => (
+                            <option key={year} value={year}>
+                                {year}
+                            </option>
+                        ))}
+                    </select>
+                    <span className="ml-2 text-gray-400">
+                        (มีข้อมูล {availableYears.length} ปี)
+                    </span>
+                </div>
+            )}
 
-            {!isLoading && (
+            {/* Peak Usage Cards with Loading State */}
+            {isLoading ? (
+                <div className="grid grid-cols-3 gap-4 mb-6">
+                    {[1, 2, 3].map((index) => (
+                        <div key={index} className="bg-[#3B6790] p-4 rounded-lg shadow-lg animate-pulse">
+                            <div className="h-6 w-48 bg-[#4C7B8B] rounded mb-4"></div>
+                            <div className="h-8 w-32 bg-[#4C7B8B] rounded"></div>
+                        </div>
+                    ))}
+                </div>
+            ) : (
                 <div className="grid grid-cols-3 gap-4 mb-6">
                     <div className="bg-[#3B6790] p-4 rounded-lg shadow-lg">
                         <h3 className="text-lg font-light mb-2">📅 เดือนที่มีการจองมากที่สุด</h3>
@@ -308,15 +349,15 @@ export default function Dashboard() {
             {isLoading ? (
                 // Loading skeleton grid
                 <div className="space-y-6">
-                    {[1, 2, 3].map((index) => (
-                        <div key={index} className="bg-[#3B6790] p-4 shadow-md rounded-lg animate-pulse">
+                    {[1, 2, 3, 4].map((index) => (
+                        <div key={index} className="bg-[#3B6790] p-6 shadow-lg rounded-lg mb-8 animate-pulse">
                             <div className="flex justify-between items-center mb-2">
                                 <div className="h-6 bg-[#4C7B8B] rounded w-48"></div>
                                 <div className="h-6 bg-[#4C7B8B] rounded w-32"></div>
                             </div>
                             <div className="grid grid-cols-10 gap-4">
                                 <div className="col-span-7">
-                                    <div className="w-full h-[300px] bg-[#4C7B8B] rounded"></div>
+                                    <div className="w-full h-[400px] bg-[#4C7B8B] rounded"></div>
                                 </div>
                                 <div className="col-span-3">
                                     <div className="space-y-4">
@@ -332,6 +373,30 @@ export default function Dashboard() {
                 </div>
             ) : (
                 <>
+
+                {/* กราฟและตารางจำนวนการจองตามตำแหน่ง */}
+                <div className="bg-[#3B6790] p-6 shadow-lg rounded-lg mb-8">
+                        <h2 className="text-lg font-light mb-4">📅 จำนวนการจองรายเดือน ({selectedYear})</h2>
+                        <div className="w-full h-[400px]">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart data={monthlyData}>
+                                    <XAxis 
+                                        dataKey="name" 
+                                        stroke="#ffffff"
+                                        angle={-45}
+                                        textAnchor="end"
+                                        height={100}
+                                        interval={0}
+                                    />
+                                    <YAxis stroke="#ffffff" />
+                                    <Tooltip />
+                                    <Legend />
+                                    <Bar dataKey="count" name="จำนวนการจอง" fill="#60A5FA" />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
+
                     {/* กราฟและตารางจำนวนการจองตามตำแหน่ง */}
                     <div className={`bg-[#3B6790] p-6 shadow-lg rounded-lg mb-8 ${isLoading ? "animate-pulse" : ""}`}>
                         <div className="flex justify-between items-center mb-2">
@@ -355,7 +420,7 @@ export default function Dashboard() {
                                         <YAxis stroke="#ffffff" />
                                         <Tooltip />
                                         <Legend />
-                                        <Bar dataKey="count" fill="#38BDF8" />
+                                        <Bar dataKey="count" name="จำนวนการจอง" fill="#38BDF8" />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
@@ -430,7 +495,7 @@ export default function Dashboard() {
                                         <YAxis stroke="#ffffff" />
                                         <Tooltip />
                                         <Legend />
-                                        <Bar dataKey="count" fill="#F59E0B" />
+                                        <Bar dataKey="count" name="จำนวนการจอง" fill="#F59E0B" />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
@@ -505,7 +570,7 @@ export default function Dashboard() {
                                         <YAxis stroke="#ffffff" />
                                         <Tooltip />
                                         <Legend />
-                                        <Bar dataKey="count" fill="#4ADE80" />
+                                        <Bar dataKey="count" name="จำนวนการจอง" fill="#4ADE80" />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>

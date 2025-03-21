@@ -149,49 +149,62 @@ export default function RoomsPage() {
                 📊 แดชบอร์ด : รายงานการใช้ห้องตาม{viewType === 'branch' ? 'สาขา' : 'ตำแหน่ง'}
             </h1>
 
-            <div className={`mb-4 flex items-center gap-4 ${isLoading ? "opacity-50 pointer-events-none" : ""}`}>
-                <div>
-                    <label className="mr-2 font-light">เลือกปี:</label>
-                    <select
-                        className="bg-[#3B6790] text-white p-2 rounded"
-                        value={selectedYear}
-                        onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-                    >
-                        {availableYears.map((year) => (
-                            <option key={year} value={year}>{year}</option>
-                        ))}
-                    </select>
+            {isLoading ? (
+                <div className="mb-4 flex items-center gap-4">
+                    <div className="h-10 w-12 bg-[#3B6790] rounded animate-pulse"></div>
+                    <div className="h-10 w-20 bg-[#3B6790] rounded animate-pulse"></div>
+                    <div className="h-10 w-32 bg-[#3B6790] rounded animate-pulse"></div>
+                    <div className="h-10 w-32 bg-[#3B6790] rounded animate-pulse"></div>
                 </div>
-                <div>
-                    <button
-                        className="bg-[#3B6790] text-white px-4 py-2 rounded"
-                        onClick={() => setViewType(viewType === 'branch' ? 'position' : 'branch')}
-                    >
-                        🔄 ดูตาม{viewType === 'branch' ? 'ตำแหน่ง' : 'สาขา'}
-                    </button>
+            ) : (
+                <div className="mb-4 flex items-center gap-4">
+                    <div>
+                        <label className="mr-2 font-light">เลือกปี:</label>
+                        <select
+                            className="bg-[#3B6790] text-white p-2 rounded"
+                            value={selectedYear}
+                            onChange={(e) => setSelectedYear(parseInt(e.target.value))}
+                        >
+                            {availableYears.map((year) => (
+                                <option key={year} value={year}>{year}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <button
+                            className="bg-[#3B6790] text-white px-4 py-2 rounded"
+                            onClick={() => setViewType(viewType === 'branch' ? 'position' : 'branch')}
+                        >
+                            🔄 ดูตาม{viewType === 'branch' ? 'ตำแหน่ง' : 'สาขา'}
+                        </button>
+                    </div>
+                    <div>
+                        <button
+                            className="bg-[#3B6790] text-white px-4 py-2 rounded"
+                            onClick={() => setShowPercentage(!showPercentage)}
+                        >
+                            {showPercentage ? '🔄 แสดงจำนวนครั้ง' : '🔄 แสดงเปอร์เซ็นต์'}
+                        </button>
+                    </div>
                 </div>
-                <div>
-                    <button
-                        className="bg-[#3B6790] text-white px-4 py-2 rounded"
-                        onClick={() => setShowPercentage(!showPercentage)}
-                    >
-                        {showPercentage ? '🔄 แสดงจำนวนครั้ง' : '🔄 แสดงเปอร์เซ็นต์'}
-                    </button>
-                </div>
-            </div>
+            )}
 
             {isLoading ? (
                 <div className="grid grid-cols-3 gap-6">
                     {[1, 2, 3, 4, 5, 6].map((index) => (
-                        <div key={index} className="bg-[#3B6790] p-4 shadow-md rounded-lg h-[450px] animate-pulse">
-                            <div className="h-6 bg-[#4C7B8B] rounded w-1/2 mb-4"></div>
-                            <div className="flex justify-center items-center">
-                                <div className="w-[250px] h-[250px] bg-[#4C7B8B] rounded-full"></div>
+                        <div key={index} className="bg-[#3B6790] p-4 shadow-md rounded-lg h-[450px]">
+                            <div className="h-6 bg-[#4C7B8B] rounded w-1/2 mb-4 animate-pulse"></div>
+                            <div className="flex justify-center items-center h-[250px] relative">
+                                <div className="w-[200px] h-[200px] bg-[#4C7B8B] rounded-full animate-pulse"></div>
+                                <div className="absolute inset-0 w-[250px] h-[250px] mx-auto border-8 border-[#4C7B8B]/30 rounded-full"></div>
                             </div>
                             <div className="mt-4 space-y-2">
-                                <div className="h-8 bg-[#4C7B8B] rounded"></div>
-                                <div className="h-8 bg-[#4C7B8B] rounded"></div>
-                                <div className="h-8 bg-[#4C7B8B] rounded"></div>
+                                {[1, 2, 3].map((item) => (
+                                    <div key={item} className="flex justify-between px-4 py-2 bg-[#4C7B8B] rounded animate-pulse">
+                                        <div className="h-4 w-20 bg-[#5D8BA9] rounded"></div>
+                                        <div className="h-4 w-12 bg-[#5D8BA9] rounded"></div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     ))}

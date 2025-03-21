@@ -6,8 +6,11 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 const itim = Itim({ variable: "--font-itim", subsets: ["thai", "latin"], weight: ["400"] });
 
 export const metadata = {
-  title: "Dashboard",
-  description: "Report Dashboard",
+  title: "รายงานสถิติการจองห้อง",
+  description: "รายงานสถิติ",
+  icons: {
+    icon: "/IT-MSU-logo.png",
+  },
 };
 
 export default function RootLayout({ children }) {
