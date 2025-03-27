@@ -284,8 +284,8 @@ export default function Dashboard() {
     const CustomTooltip = ({ active, payload, label, valuePrefix }) => {
         if (active && payload && payload.length) {
             return (
-                <div className="bg-[#1E3A5A] p-3 rounded shadow-lg border border-gray-600">
-                    <p className="text-white mb-1">{`${label}`}</p>
+                <div className="bg-[var(--card-bg)] p-3 rounded shadow-lg border border-[var(--card-border)]">
+                    <p className="text-[var(--foreground)] mb-1">{`${label}`}</p>
                     <p className="text-sky-400">{`${valuePrefix}: ${payload[0].value} ครั้ง`}</p>
                 </div>
             );
@@ -294,21 +294,21 @@ export default function Dashboard() {
     };
 
     return (
-        <div className="p-6 pl-72 bg-[#23486A] min-h-screen text-white">
+        <div className="p-6 pl-72 min-h-screen bg-[var(--background)]">
             <h1 className="text-2xl font-normal mb-4">📊 แดชบอร์ด : รายงานการจองห้อง</h1>
 
             {/* Year Selector with Loading State */}
             {isLoading ? (
                 <div className="mb-4 flex items-center gap-4">
-                    <div className="h-8 w-16 bg-[#3B6790] rounded animate-pulse"></div>
-                    <div className="h-8 w-32 bg-[#3B6790] rounded animate-pulse"></div>
-                    <div className="h-8 w-24 bg-[#3B6790] rounded animate-pulse"></div>
+                    <div className="h-8 w-16 bg-[var(--card-bg)] rounded animate-pulse"></div>
+                    <div className="h-8 w-32 bg-[var(--card-bg)] rounded animate-pulse"></div>
+                    <div className="h-8 w-24 bg-[var(--card-bg)] rounded animate-pulse"></div>
                 </div>
             ) : (
                 <div className="mb-4 flex items-center gap-4">
                     <label className="mr-2 font-light">เลือกปี:</label>
                     <select
-                        className="bg-[#3B6790] text-white p-2 rounded"
+                        className="bg-[var(--card-bg)] text-[var(--foreground)] p-2 rounded border border-[var(--card-border)]"
                         value={selectedYear}
                         onChange={(e) => setSelectedYear(parseInt(e.target.value))}
                     >
@@ -328,29 +328,29 @@ export default function Dashboard() {
             {isLoading ? (
                 <div className="grid grid-cols-3 gap-4 mb-6">
                     {[1, 2, 3].map((index) => (
-                        <div key={index} className="bg-[#3B6790] p-4 rounded-lg shadow-lg animate-pulse">
-                            <div className="h-6 w-48 bg-[#4C7B8B] rounded mb-4"></div>
-                            <div className="h-8 w-32 bg-[#4C7B8B] rounded"></div>
+                        <div key={index} className="bg-[var(--card-bg)] p-4 rounded-lg shadow-lg animate-pulse">
+                            <div className="h-6 w-48 bg-[var(--card-hover)] rounded mb-4"></div>
+                            <div className="h-8 w-32 bg-[var(--card-hover)] rounded"></div>
                         </div>
                     ))}
                 </div>
             ) : (
                 <div className="grid grid-cols-3 gap-4 mb-6">
-                    <div className="bg-[#3B6790] p-4 rounded-lg shadow-lg">
+                    <div className="bg-[var(--card-bg)] p-4 rounded-lg shadow-lg border border-[var(--card-border)]">
                         <h3 className="text-lg font-light mb-2">📅 เดือนที่มีการจองมากที่สุด</h3>
                         <div className="text-xl font-normal text-sky-400">
                             {peakUsage.month.name}
-                            <span className="text-sm text-gray-300 ml-2">({peakUsage.month.count} ครั้ง)</span>
+                            <span className="text-sm text-[var(--foreground)] ml-2">({peakUsage.month.count} ครั้ง)</span>
                         </div>
                     </div>
-                    <div className="bg-[#3B6790] p-4 rounded-lg shadow-lg">
+                    <div className="bg-[var(--card-bg)] p-4 rounded-lg shadow-lg border border-[var(--card-border)]">
                         <h3 className="text-lg font-light mb-2">📆 วันที่มีการจองมากที่สุด</h3>
                         <div className="text-xl font-normal text-amber-400">
                             {peakUsage.dayOfWeek.name}
-                            <span className="text-sm text-gray-300 ml-2">({peakUsage.dayOfWeek.count} ครั้ง)</span>
+                            <span className="text-sm text-[var(--foreground)] ml-2">({peakUsage.dayOfWeek.count} ครั้ง)</span>
                         </div>
                     </div>
-                    <div className="bg-[#3B6790] p-4 rounded-lg shadow-lg">
+                    <div className="bg-[var(--card-bg)] p-4 rounded-lg shadow-lg border border-[var(--card-border)]">
                         <h3 className="text-lg font-light mb-2">⏰ เวลาที่มีการใช้ห้องเฉลี่ย</h3>
                         <div className="text-xl font-normal text-green-400">
                             {peakUsage.timeSlot.avgDuration?.toFixed(2) || 0} ชั่วโมง
@@ -363,21 +363,21 @@ export default function Dashboard() {
                 // Loading skeleton grid
                 <div className="space-y-6">
                     {[1, 2, 3, 4].map((index) => (
-                        <div key={index} className="bg-[#3B6790] p-6 shadow-lg rounded-lg mb-8 animate-pulse">
+                        <div key={index} className="bg-[var(--card-bg)] p-6 shadow-lg rounded-lg mb-8 animate-pulse">
                             <div className="flex justify-between items-center mb-2">
-                                <div className="h-6 bg-[#4C7B8B] rounded w-48"></div>
-                                <div className="h-6 bg-[#4C7B8B] rounded w-32"></div>
+                                <div className="h-6 bg-[var(--card-hover)] rounded w-48"></div>
+                                <div className="h-6 bg-[var(--card-hover)] rounded w-32"></div>
                             </div>
                             <div className="grid grid-cols-10 gap-4">
                                 <div className="col-span-7">
-                                    <div className="w-full h-[400px] bg-[#4C7B8B] rounded"></div>
+                                    <div className="w-full h-[400px] bg-[var(--card-hover)] rounded"></div>
                                 </div>
                                 <div className="col-span-3">
                                     <div className="space-y-4">
-                                        <div className="h-8 bg-[#4C7B8B] rounded"></div>
-                                        <div className="h-8 bg-[#4C7B8B] rounded"></div>
-                                        <div className="h-8 bg-[#4C7B8B] rounded"></div>
-                                        <div className="h-8 bg-[#4C7B8B] rounded"></div>
+                                        <div className="h-8 bg-[var(--card-hover)] rounded"></div>
+                                        <div className="h-8 bg-[var(--card-hover)] rounded"></div>
+                                        <div className="h-8 bg-[var(--card-hover)] rounded"></div>
+                                        <div className="h-8 bg-[var(--card-hover)] rounded"></div>
                                     </div>
                                 </div>
                             </div>
@@ -388,20 +388,20 @@ export default function Dashboard() {
                 <>
 
                 {/* กราฟและตารางจำนวนการจองตามตำแหน่ง */}
-                <div className="bg-[#3B6790] p-6 shadow-lg rounded-lg mb-8">
+                <div className="bg-[var(--card-bg)] p-6 shadow-lg rounded-lg mb-8 border border-[var(--card-border)]">
                         <h2 className="text-lg font-light mb-4">📅 จำนวนการจองรายเดือน ({selectedYear})</h2>
                         <div className="w-full h-[400px]">
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={monthlyData}>
                                     <XAxis 
                                         dataKey="name" 
-                                        stroke="#ffffff"
+                                        stroke="var(--chart-text)"
                                         angle={-45}
                                         textAnchor="end"
                                         height={100}
                                         interval={0}
                                     />
-                                    <YAxis stroke="#ffffff" />
+                                    <YAxis stroke="var(--chart-text)" />
                                     <Tooltip content={<CustomTooltip valuePrefix="จำนวนการจอง" />} />
                                     <Legend />
                                     <Bar dataKey="count" name="จำนวนการจอง" fill="#60A5FA" />
@@ -411,7 +411,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* กราฟและตารางจำนวนการจองตามตำแหน่ง */}
-                    <div className={`bg-[#3B6790] p-6 shadow-lg rounded-lg mb-8 ${isLoading ? "animate-pulse" : ""}`}>
+                    <div className={`bg-[var(--card-bg)] p-6 shadow-lg rounded-lg mb-8 border border-[var(--card-border)] ${isLoading ? "animate-pulse" : ""}`}>
                         <div className="flex justify-between items-center mb-2">
                             <h2 className="text-lg font-light">📍 การจองห้องแยกตามตำแหน่ง ({selectedYear})</h2>
                             <div className="text-xl font-normal text-sky-400">
@@ -424,13 +424,13 @@ export default function Dashboard() {
                                     <BarChart data={roleData}>
                                         <XAxis
                                             dataKey="name"
-                                            stroke="#ffffff"
+                                            stroke="var(--chart-text)"
                                             angle={-45}
                                             textAnchor="end"
                                             height={100}
                                             interval={0}
                                         />
-                                        <YAxis stroke="#ffffff" />
+                                        <YAxis stroke="var(--chart-text)" />
                                         <Tooltip content={<CustomTooltip valuePrefix="จำนวนการจอง" />} />
                                         <Legend />
                                         <Bar dataKey="count" name="จำนวนการจอง" fill="#38BDF8" />
@@ -442,13 +442,13 @@ export default function Dashboard() {
                                     <thead>
                                         <tr>
                                             <th
-                                                className="text-left p-2 border-b border-gray-700 cursor-pointer hover:bg-[#4C7B8B]"
+                                                className="text-left p-2 border-b border-[var(--card-border)] cursor-pointer hover:bg-[var(--card-hover)]"
                                                 onClick={() => handleSort('role', 'name')}
                                             >
                                                 ตำแหน่ง {sortConfig.role.key === 'name' && (sortConfig.role.direction === 'asc' ? '↑' : '↓')}
                                             </th>
                                             <th
-                                                className="text-left p-2 border-b border-gray-700 cursor-pointer hover:bg-[#4C7B8B]"
+                                                className="text-left p-2 border-b border-[var(--card-border)] cursor-pointer hover:bg-[var(--card-hover)]"
                                                 onClick={() => handleSort('role', 'count')}
                                             >
                                                 จำนวนการจอง {sortConfig.role.key === 'count' && (sortConfig.role.direction === 'asc' ? '↑' : '↓')}
@@ -457,9 +457,9 @@ export default function Dashboard() {
                                     </thead>
                                     <tbody>
                                         {paginateData(sortData(roleData, 'role'), rolePage, itemsPerPage).map((item, index) => (
-                                            <tr key={index} className="hover:bg-[#4C7B8B]">
-                                                <td className="p-2 border-b border-gray-700">{item.name}</td>
-                                                <td className="p-2 border-b border-gray-700">{item.count}</td>
+                                            <tr key={index} className="hover:bg-[var(--card-hover)]">
+                                                <td className="p-2 border-b border-[var(--card-border)]">{item.name}</td>
+                                                <td className="p-2 border-b border-[var(--card-border)]">{item.count}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -468,7 +468,7 @@ export default function Dashboard() {
                                     <button
                                         onClick={() => setRolePage(prev => Math.max(1, prev - 1))}
                                         disabled={rolePage === 1}
-                                        className="px-3 py-1 bg-[#4C7B8B] rounded disabled:opacity-50"
+                                        className="px-3 py-1 bg-[var(--button-bg)] hover:bg-[var(--button-hover)] rounded disabled:opacity-50 disabled:bg-[var(--button-disabled)]"
                                     >
                                         ก่อนหน้า
                                     </button>
@@ -476,7 +476,7 @@ export default function Dashboard() {
                                     <button
                                         onClick={() => setRolePage(prev => Math.min(Math.ceil(roleData.length / itemsPerPage), prev + 1))}
                                         disabled={rolePage >= Math.ceil(roleData.length / itemsPerPage)}
-                                        className="px-3 py-1 bg-[#4C7B8B] rounded disabled:opacity-50"
+                                        className="px-3 py-1 bg-[var(--button-bg)] hover:bg-[var(--button-hover)] rounded disabled:opacity-50 disabled:bg-[var(--button-disabled)]"
                                     >
                                         ถัดไป
                                     </button>
@@ -486,7 +486,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* กราฟและตารางจำนวนการจองตามห้อง */}
-                    <div className={`bg-[#3B6790] p-6 shadow-lg rounded-lg mb-8 ${isLoading ? "animate-pulse" : ""}`}>
+                    <div className={`bg-[var(--card-bg)] p-6 shadow-lg rounded-lg mb-8 border border-[var(--card-border)] ${isLoading ? "animate-pulse" : ""}`}>
                         <div className="flex justify-between items-center mb-2">
                             <h2 className="text-lg font-light">🏠 จำนวนการจองแต่ละห้อง ({selectedYear})</h2>
                             <div className="text-xl font-normal text-amber-400">
@@ -499,13 +499,13 @@ export default function Dashboard() {
                                     <BarChart data={roomData}>
                                         <XAxis
                                             dataKey="name"
-                                            stroke="#ffffff"
+                                            stroke="var(--chart-text)"
                                             angle={-45}
                                             textAnchor="end"
                                             height={150}
-                                            interval={0}
+                                            interval={2}
                                         />
-                                        <YAxis stroke="#ffffff" />
+                                        <YAxis stroke="var(--chart-text)" />
                                         <Tooltip content={<CustomTooltip valuePrefix="จำนวนการจอง" />} />
                                         <Legend />
                                         <Bar dataKey="count" name="จำนวนการจอง" fill="#F59E0B" />
@@ -517,13 +517,13 @@ export default function Dashboard() {
                                     <thead>
                                         <tr>
                                             <th
-                                                className="text-left p-2 border-b border-gray-700 cursor-pointer hover:bg-[#4C7B8B]"
+                                                className="text-left p-2 border-b border-[var(--card-border)] cursor-pointer hover:bg-[var(--card-hover)]"
                                                 onClick={() => handleSort('room', 'name')}
                                             >
                                                 ห้อง {sortConfig.room.key === 'name' && (sortConfig.room.direction === 'asc' ? '↑' : '↓')}
                                             </th>
                                             <th
-                                                className="text-left p-2 border-b border-gray-700 cursor-pointer hover:bg-[#4C7B8B]"
+                                                className="text-left p-2 border-b border-[var(--card-border)] cursor-pointer hover:bg-[var(--card-hover)]"
                                                 onClick={() => handleSort('room', 'count')}
                                             >
                                                 จำนวนการจอง {sortConfig.room.key === 'count' && (sortConfig.room.direction === 'asc' ? '↑' : '↓')}
@@ -532,9 +532,9 @@ export default function Dashboard() {
                                     </thead>
                                     <tbody>
                                         {paginateData(sortData(roomData, 'room'), roomPage, itemsPerPage).map((item, index) => (
-                                            <tr key={index} className="hover:bg-[#4C7B8B]">
-                                                <td className="p-2 border-b border-gray-700">{item.name}</td>
-                                                <td className="p-2 border-b border-gray-700">{item.count}</td>
+                                            <tr key={index} className="hover:bg-[var(--card-hover)]">
+                                                <td className="p-2 border-b border-[var(--card-border)]">{item.name}</td>
+                                                <td className="p-2 border-b border-[var(--card-border)]">{item.count}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -544,7 +544,7 @@ export default function Dashboard() {
                                     <button
                                         onClick={() => setRoomPage(prev => Math.max(1, prev - 1))}
                                         disabled={roomPage === 1}
-                                        className="px-3 py-1 bg-[#4C7B8B] rounded disabled:opacity-50"
+                                        className="px-3 py-1 bg-[var(--button-bg)] hover:bg-[var(--button-hover)] rounded disabled:opacity-50 disabled:bg-[var(--button-disabled)]"
                                     >
                                         ก่อนหน้า
                                     </button>
@@ -552,7 +552,7 @@ export default function Dashboard() {
                                     <button
                                         onClick={() => setRoomPage(prev => Math.min(Math.ceil(roomData.length / itemsPerPage), prev + 1))}
                                         disabled={roomPage >= Math.ceil(roomData.length / itemsPerPage)}
-                                        className="px-3 py-1 bg-[#4C7B8B] rounded disabled:opacity-50"
+                                        className="px-3 py-1 bg-[var(--button-bg)] hover:bg-[var(--button-hover)] rounded disabled:opacity-50 disabled:bg-[var(--button-disabled)]"
                                     >
                                         ถัดไป
                                     </button>
@@ -561,7 +561,7 @@ export default function Dashboard() {
                         </div>
                     </div>
                     {/* กราฟและตารางจำนวนการจองตามสาขา */}
-                    <div className={`bg-[#3B6790] p-6 shadow-lg rounded-lg ${isLoading ? "animate-pulse" : ""}`}>
+                    <div className={`bg-[var(--card-bg)] p-6 shadow-lg rounded-lg border border-[var(--card-border)] ${isLoading ? "animate-pulse" : ""}`}>
                         <div className="flex justify-between items-center mb-2">
                             <h2 className="text-lg font-light">🏢 จำนวนการจองแต่ละสาขา ({selectedYear})</h2>
                             <div className="text-xl font-normal text-green-400">
@@ -574,13 +574,13 @@ export default function Dashboard() {
                                     <BarChart data={branchData}>
                                         <XAxis
                                             dataKey="name"
-                                            stroke="#ffffff"
+                                            stroke="var(--chart-text)"
                                             angle={-45}
                                             textAnchor="end"
                                             height={100}
                                             interval={0}
                                         />
-                                        <YAxis stroke="#ffffff" />
+                                        <YAxis stroke="var(--chart-text)" />
                                         <Tooltip content={<CustomTooltip valuePrefix="จำนวนการจอง" />} />
                                         <Legend />
                                         <Bar dataKey="count" name="จำนวนการจอง" fill="#4ADE80" />
@@ -592,13 +592,13 @@ export default function Dashboard() {
                                     <thead>
                                         <tr>
                                             <th
-                                                className="text-left p-2 border-b border-gray-700 cursor-pointer hover:bg-[#4C7B8B]"
+                                                className="text-left p-2 border-b border-[var(--card-border)] cursor-pointer hover:bg-[var(--card-hover)]"
                                                 onClick={() => handleSort('branch', 'name')}
                                             >
                                                 สาขา {sortConfig.branch.key === 'name' && (sortConfig.branch.direction === 'asc' ? '↑' : '↓')}
                                             </th>
                                             <th
-                                                className="text-left p-2 border-b border-gray-700 cursor-pointer hover:bg-[#4C7B8B]"
+                                                className="text-left p-2 border-b border-[var(--card-border)] cursor-pointer hover:bg-[var(--card-hover)]"
                                                 onClick={() => handleSort('branch', 'count')}
                                             >
                                                 จำนวนการจอง {sortConfig.branch.key === 'count' && (sortConfig.branch.direction === 'asc' ? '↑' : '↓')}
@@ -607,9 +607,9 @@ export default function Dashboard() {
                                     </thead>
                                     <tbody>
                                         {paginateData(sortData(branchData, 'branch'), branchPage, itemsPerPage).map((item, index) => (
-                                            <tr key={index} className="hover:bg-[#4C7B8B]">
-                                                <td className="p-2 border-b border-gray-700">{item.name}</td>
-                                                <td className="p-2 border-b border-gray-700">{item.count}</td>
+                                            <tr key={index} className="hover:bg-[var(--card-hover)]">
+                                                <td className="p-2 border-b border-[var(--card-border)]">{item.name}</td>
+                                                <td className="p-2 border-b border-[var(--card-border)]">{item.count}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -618,7 +618,7 @@ export default function Dashboard() {
                                     <button
                                         onClick={() => setBranchPage(prev => Math.max(1, prev - 1))}
                                         disabled={branchPage === 1}
-                                        className="px-3 py-1 bg-[#4C7B8B] rounded disabled:opacity-50"
+                                        className="px-3 py-1 bg-[var(--button-bg)] hover:bg-[var(--button-hover)] rounded disabled:opacity-50 disabled:bg-[var(--button-disabled)]"
                                     >
                                         ก่อนหน้า
                                     </button>
@@ -626,7 +626,7 @@ export default function Dashboard() {
                                     <button
                                         onClick={() => setBranchPage(prev => Math.min(Math.ceil(branchData.length / itemsPerPage), prev + 1))}
                                         disabled={branchPage >= Math.ceil(branchData.length / itemsPerPage)}
-                                        className="px-3 py-1 bg-[#4C7B8B] rounded disabled:opacity-50"
+                                        className="px-3 py-1 bg-[var(--button-bg)] hover:bg-[var(--button-hover)] rounded disabled:opacity-50 disabled:bg-[var(--button-disabled)]"
                                     >
                                         ถัดไป
                                     </button>

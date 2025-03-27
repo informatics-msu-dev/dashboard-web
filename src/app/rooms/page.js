@@ -146,9 +146,11 @@ export default function RoomsPage() {
     const CustomTooltip = ({ active, payload }) => {
         if (active && payload && payload.length) {
             return (
-                <div className="bg-[#1E3A5A] p-2 rounded shadow-lg">
-                    <p className="font-medium">{payload[0].name}</p>
-                    <p>{showPercentage ? `${payload[0].value}%` : `${payload[0].payload.count} ครั้ง`}</p>
+                <div className="bg-[var(--card-bg)] p-2 rounded shadow-lg border border-[var(--card-border)]">
+                    <p className="font-medium text-[var(--foreground)]">{payload[0].name}</p>
+                    <p className="text-[var(--foreground)]">
+                        {showPercentage ? `${payload[0].value}%` : `${payload[0].payload.count} ครั้ง`}
+                    </p>
                 </div>
             );
         }
@@ -156,24 +158,24 @@ export default function RoomsPage() {
     };
 
     return (
-        <div className="p-6 pl-72 bg-[#23486A] min-h-screen text-white">
+        <div className="p-6 pl-72 min-h-screen bg-[var(--background)] text-[var(--foreground)]">
             <h1 className="text-2xl font-normal mb-4">
                 📊 แดชบอร์ด : รายงานการใช้ห้องตาม{viewType === 'branch' ? 'สาขา' : 'ตำแหน่ง'}
             </h1>
 
             {isLoading ? (
                 <div className="mb-4 flex items-center gap-4">
-                    <div className="h-10 w-12 bg-[#3B6790] rounded animate-pulse"></div>
-                    <div className="h-10 w-20 bg-[#3B6790] rounded animate-pulse"></div>
-                    <div className="h-10 w-32 bg-[#3B6790] rounded animate-pulse"></div>
-                    <div className="h-10 w-32 bg-[#3B6790] rounded animate-pulse"></div>
+                    <div className="h-10 w-12 bg-[var(--card-bg)] rounded animate-pulse"></div>
+                    <div className="h-10 w-20 bg-[var(--card-bg)] rounded animate-pulse"></div>
+                    <div className="h-10 w-32 bg-[var(--card-bg)] rounded animate-pulse"></div>
+                    <div className="h-10 w-32 bg-[var(--card-bg)] rounded animate-pulse"></div>
                 </div>
             ) : (
                 <div className="mb-4 flex items-center gap-4">
                     <div>
                         <label className="mr-2 font-light">เลือกปี:</label>
                         <select
-                            className="bg-[#3B6790] text-white p-2 rounded"
+                            className="bg-[var(--card-bg)] text-[var(--foreground)] p-2 rounded border border-[var(--card-border)]"
                             value={selectedYear}
                             onChange={(e) => setSelectedYear(parseInt(e.target.value))}
                         >
@@ -184,7 +186,7 @@ export default function RoomsPage() {
                     </div>
                     <div>
                         <button
-                            className="bg-[#3B6790] text-white px-4 py-2 rounded"
+                            className="bg-[var(--button-bg)] text-[var(--foreground)] px-4 py-2 rounded hover:bg-[var(--button-hover)]"
                             onClick={() => setViewType(viewType === 'branch' ? 'position' : 'branch')}
                         >
                             🔄 ดูตาม{viewType === 'branch' ? 'ตำแหน่ง' : 'สาขา'}
@@ -192,7 +194,7 @@ export default function RoomsPage() {
                     </div>
                     <div>
                         <button
-                            className="bg-[#3B6790] text-white px-4 py-2 rounded"
+                            className="bg-[var(--button-bg)] text-[var(--foreground)] px-4 py-2 rounded hover:bg-[var(--button-hover)]"
                             onClick={() => setShowPercentage(!showPercentage)}
                         >
                             {showPercentage ? '🔄 แสดงจำนวนครั้ง' : '🔄 แสดงเปอร์เซ็นต์'}
@@ -204,17 +206,15 @@ export default function RoomsPage() {
             {isLoading ? (
                 <div className="grid grid-cols-3 gap-6">
                     {[1, 2, 3, 4, 5, 6].map((index) => (
-                        <div key={index} className="bg-[#3B6790] p-4 shadow-md rounded-lg h-[450px]">
-                            <div className="h-6 bg-[#4C7B8B] rounded w-1/2 mb-4 animate-pulse"></div>
+                        <div key={index} className="bg-[var(--card-bg)] p-4 shadow-md rounded-lg h-[450px] border border-[var(--card-border)]">
+                            <div className="h-6 bg-[var(--card-hover)] rounded w-1/2 mb-4 animate-pulse"></div>
                             <div className="flex justify-center items-center h-[250px] relative">
-                                <div className="w-[200px] h-[200px] bg-[#4C7B8B] rounded-full animate-pulse"></div>
-                                <div className="absolute inset-0 w-[250px] h-[250px] mx-auto border-8 border-[#4C7B8B]/30 rounded-full"></div>
+                                <div className="w-[200px] h-[200px] bg-[var(--card-hover)] rounded-full animate-pulse"></div>
+                                <div className="absolute inset-0 w-[250px] h-[250px] mx-auto border-8 border-[var(--card-hover)]/30 rounded-full"></div>
                             </div>
                             <div className="mt-4 space-y-2">
                                 {[1, 2, 3].map((item) => (
-                                    <div key={item} className="flex justify-between px-4 py-2 bg-[#4C7B8B] rounded animate-pulse">
-                                        <div className="h-4 w-20 bg-[#5D8BA9] rounded"></div>
-                                        <div className="h-4 w-12 bg-[#5D8BA9] rounded"></div>
+                                    <div key={item} className="flex justify-center h-4 px-4 py-2 bg-[var(--card-hover)] rounded animate-pulse">
                                     </div>
                                 ))}
                             </div>
@@ -224,7 +224,7 @@ export default function RoomsPage() {
             ) : (
                 <div className="grid grid-cols-3 gap-6">
                     {roomUsage.map((room, index) => (
-                        <div key={index} className="bg-[#3B6790] p-4 shadow-md rounded-lg">
+                        <div key={index} className="bg-[var(--card-bg)] p-4 shadow-md rounded-lg border border-[var(--card-border)]">
                             <h2 className="text-lg font-light">🏠 {room.name}</h2>
                             <div className="flex justify-center items-center">
                                 <PieChart width={250} height={250}>
@@ -244,7 +244,7 @@ export default function RoomsPage() {
                                     <Tooltip content={<CustomTooltip />} />
                                 </PieChart>
                             </div>
-                            <div className="mt-4 max-h-[144px] overflow-y-auto" style={{ scrollbarWidth: 'thin' }}>
+                            <div className="mt-4 max-h-[144px] overflow-y-auto scrollbar-thin">
                                 {room.data.map((item, i) => (
                                     <div 
                                         key={i} 
